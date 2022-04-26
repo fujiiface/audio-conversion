@@ -28,20 +28,24 @@ $artist = Get-Location | Split-Path | Split-Path -Leaf
 $files | ForEach-Object {
     $originalFile = $_.FullName
     $newFile = $path + $_.BaseName + ".m4a"
-    $title = $_.BaseName
 
     $_ | Where-Object { $_.Attributes -like '*Hidden*' }
+    
+    $title = $_.BaseName.Substring($_.BaseName.indexOf(" ") + 1)
 
     $lyrics = Write-Output (ffprobe -hide_banner -show_entries format_tags=UNSYNCEDLYRICS $originalFile)
     $lyrics = $lyrics -replace ".*UNSYNCEDLYRICS=" -replace ".*FORMAT]" -replace "`"", "'" -replace "`“", "'"
     $lyrics = $lyrics.Trim()
 
-    if ($lyrics -notmatch "\S") {
+    $lyrics
+
+    if ([string]::IsNullOrEmpty($lyrics)){
+        "No lyrics"
         ffmpeg -hide_banner -i $originalFile -metadata title="$title" -metadata artist="$artist" -metadata album_artist="$artist" -metadata album="$album" -c:v copy -c:a alac $newFile
     }
     else {
-        # Set lyrics metadata
-        ffmpeg -hide_banner -i $originalFile -metadata lyrics="$lyrics" -metadata title="$title" -metadata artist="$artist" -metadata album_artist="$artist" -metadata album="$album" -c:v copy -c:a alac $newFile
+        "Lyrics found"
+        ffmpeg -hide_banner -i $originalFile -metadata title="$title" -metadata artist="$artist" -metadata album_artist="$artist" -metadata album="$album" -metadata lyrics="$lyrics" -c:v copy -c:a alac $newFile
     }
 }
 
