@@ -38,7 +38,7 @@ $files | ForEach-Object {
     $title = $_.BaseName.Substring($_.BaseName.indexOf(" ") + 1)
     $track = [int]$_.BaseName.Substring(0, $_.BaseName.indexOf(" "))
 
-    if ($lyrics -notmatch "\S") {
+    if ([string]::IsNullOrEmpty($lyrics)) {
         ffmpeg -hide_banner -i $originalFile -metadata title="$title" -metadata artist="$artist" -metadata album_artist="$artist" -metadata album="$album" -metadata track=$track -c:v copy -c:a alac $newFile
     }
     else {
