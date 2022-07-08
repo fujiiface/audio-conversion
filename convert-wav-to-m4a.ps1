@@ -43,7 +43,7 @@ $files | ForEach-Object {
     }
     else {
         # Set lyrics metadata
-        ffmpeg -hide_banner -i $originalFile -metadata lyrics="$lyrics" -metadata title="$title" -metadata artist="$artist" -metadata album_artist="$artist" -metadata album="$album" -metadata track=$track -c:v copy -c:a alac $newFile
+        ffmpeg -hide_banner -i $originalFile -metadata title="$title" -metadata artist="$artist" -metadata album_artist="$artist" -metadata album="$album" -metadata lyrics="$lyrics" -metadata track=$track -c:v copy -c:a alac $newFile
     }
 }
 

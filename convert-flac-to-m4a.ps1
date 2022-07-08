@@ -37,8 +37,6 @@ $files | ForEach-Object {
     $lyrics = $lyrics -replace ".*UNSYNCEDLYRICS=" -replace ".*FORMAT]" -replace "`"", "'" -replace "`“", "'"
     $lyrics = $lyrics.Trim()
 
-    $lyrics
-
     if ([string]::IsNullOrEmpty($lyrics)) {
         "No lyrics"
         ffmpeg -hide_banner -i $originalFile -metadata title="$title" -metadata artist="$artist" -metadata album_artist="$artist" -metadata album="$album" -c:v copy -c:a alac $newFile
