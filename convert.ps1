@@ -30,7 +30,7 @@ if ([string]::IsNullOrWhiteSpace($album)) {
 }
 
 # Constants
-$extension = ".mp3", ".flac", ".wav", ".m4a"
+$extension = ".mp3", ".flac", ".wav", ".m4a", ".wma"
 $rootFolder = Split-Path -Path ($path) -Leaf
 $archiveFile = $path + $rootFolder + ".zip"
 
