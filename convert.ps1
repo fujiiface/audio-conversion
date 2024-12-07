@@ -61,11 +61,11 @@ try {
         # Artist and Album variables have to be passed with "using:" because they are not in the scope of the ForEach-Object block
         # Reference: https://devblogs.microsoft.com/powershell/powershell-foreach-object-parallel-feature/
         if ([string]::IsNullOrEmpty($lyrics)) {
-            ffmpeg -hide_banner -i $originalFile -metadata title="$title" -metadata artist="$using:artist" -metadata album_artist="$using:artist" -metadata album="$using:album" -metadata track=$track -c:v copy -c:a alac $newFile
+            ffmpeg -hide_banner -i $originalFile -metadata title="$title" -metadata artist="$using:artist" -metadata album_artist="$using:artist" -metadata album="$using:album" -metadata track=$track -c:v copy -c:a alac $newFile -y
         }
         else {
             # Set lyrics metadata
-            ffmpeg -hide_banner -i $originalFile -metadata title="$title" -metadata artist="$using:artist" -metadata album_artist="$using:artist" -metadata album="$using:album" -metadata lyrics="$lyrics" -metadata track=$track -c:v copy -c:a alac $newFile
+            ffmpeg -hide_banner -i $originalFile -metadata title="$title" -metadata artist="$using:artist" -metadata album_artist="$using:artist" -metadata album="$using:album" -metadata lyrics="$lyrics" -metadata track=$track -c:v copy -c:a alac $newFile -y
         }
     } -ThrottleLimit 5
 }
