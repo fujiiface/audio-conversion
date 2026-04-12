@@ -51,9 +51,6 @@ try {
                 ($using:errors).Add("Missing title: '$($_.Name)' - Bandcamp format requires title")
                 return
             }
-            if ($track -le 9) {
-                $track = "0" + $track
-            }
         }
         elseif ($newFile -match "^([0-9]{1,2})_(.+)") {
             # Underscore-separated format: ##_Song_Title
@@ -65,9 +62,6 @@ try {
             if ([string]::IsNullOrWhiteSpace($title)) {
                 ($using:errors).Add("Missing title: '$($_.Name)' - Underscore format requires title")
                 return
-            }
-            if ($track -le 9) {
-                $track = "0" + $track
             }
         }
         else {
@@ -85,9 +79,6 @@ try {
             $trackString = $filename.Substring(0, $spaceIndex)
             try {
                 $track = [int]$trackString
-                if ($track -le 9) {
-                    $track = "0" + $track
-                }   
                 $title = $filename.Substring($spaceIndex + 1)
             }
             catch {
@@ -95,6 +86,9 @@ try {
                 return
             }
         }
+
+        # Zero-pad track number to 2 digits
+        $track = $track.ToString("D2")
 
         # Reconstruct filename with proper track number format
         $newFile = "$track $title.m4a"
